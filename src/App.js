@@ -7,6 +7,7 @@ import Navigation from "./pages/Navigation";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 import "./App.css";
 
 function App() {
@@ -20,9 +21,8 @@ function App() {
         <Particles options={particlesOptions} init={particlesInit} />
         <Routes>
           <Route path="/" element={<Login />} />
-          {/* <Route path="/login" element={<Login />} /> */}
           <Route path="/signup" element={<SignUp />} />
-          {/* Add more routes as needed */}
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>
