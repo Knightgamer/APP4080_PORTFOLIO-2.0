@@ -1,46 +1,46 @@
 {
   "background": {
     "color": {
-      "value": "#0f172a" 
+      "value": "#f8fafc"
     }
   },
   "particles": {
     "number": {
       "value": 100,
       "density": {
-        "enable": false 
+        "enable": false
       }
     },
     "color": {
-      "value": "#ffffff" 
+      "value": "#1e293b"
     },
     "size": {
       "random": true,
-      "value": 1 
+      "value": 1
     },
     "move": {
       "enable": true,
-      "speed": 1, 
-      "direction": "none", 
+      "speed": 1,
+      "direction": "none",
       "outModes": {
-        "default": "out" 
+        "default": "out"
       }
     },
     "opacity": {
       "random": true,
-      "value": 0.5 
+      "value": 0.5
     },
     "shape": {
-      "type": "circle" 
+      "type": "circle"
     }
   },
   "interactivity": {
     "events": {
       "onhover": {
-        "enable": false 
+        "enable": false
       },
       "onclick": {
-        "enable": false 
+        "enable": false
       }
     }
   },
