@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add this in your global CSS file */
+.theme-transition {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-transition * {
+  transition: background-color 0.3s, color 0.3s;
+}
