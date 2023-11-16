@@ -9,23 +9,41 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // State to store the error message
 
   const navigateToSignUp = () => {
     navigate("/signup");
   };
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigateToForgotPassword = () => {
+    navigate("/forgot-password");
+  };
+
+  const getErrorMessage = (errorCode) => {
+    switch (errorCode) {
+      case "auth/invalid-login-credentials":
+        return "Incorrect email or password";
+      case "auth/user-disabled":
+        return "This user account has been disabled.";
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+        return "Incorrect email or password.";
+      // Add more cases as needed
+      default:
+        return "An error occurred. Please try again.";
+    }
+  };
 
   const signIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        console.log(userCredential);
-        // ...
+        navigate("/home");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        setError(getErrorMessage(error.code)); // Set user-friendly error message
       });
   };
   return (
@@ -35,9 +53,14 @@ const Login = () => {
       </div>
       <div className="mx-auto p-4 flex justify-center items-center h-[90vh]">
         <div className="max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
-          <h2 className="text-3xl font-semibold text-center text-gray-900 dark:text-white mb-6">
+          <h2 className="text-xl md:text-3xl font-semibold text-center text-gray-900 dark:text-white mb-6">
             Login to Your Account
           </h2>
+          {error && (
+            <div className="mb-4 text-center text-red-600">
+              {error} {/* Display the error message */}
+            </div>
+          )}
           <form onSubmit={signIn}>
             {/* Email Input */}
             <div className="mb-4">
@@ -51,6 +74,7 @@ const Login = () => {
                   id="email"
                   placeholder="Email"
                   value={email}
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none bg-transparent border-none w-full text-gray-700 dark:text-gray-300 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 />
@@ -65,13 +89,21 @@ const Login = () => {
                   type="password"
                   id="password"
                   placeholder="Password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none bg-transparent border-none w-full text-gray-700 dark:text-gray-300 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 />
               </div>
             </div>
-
+            <div className="text-right m-4">
+              <button
+                onClick={navigateToForgotPassword}
+                className="text-sm md:text-base text-blue-600 hover:text-blue-800"
+              >
+                Forgot Password?
+              </button>
+            </div>
             {/* Submit Button */}
             <button
               type="submit"
@@ -80,6 +112,7 @@ const Login = () => {
               Login
             </button>
           </form>
+
           {/* Login with GitHub */}
           <button className="w-full flex items-center justify-center bg-black text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors mb-4">
             <FontAwesomeIcon icon={faGithub} className="mr-2" />

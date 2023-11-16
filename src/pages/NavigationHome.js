@@ -10,6 +10,9 @@ import {
 import particlesConfigDark from "../particles.json";
 import particlesConfigLight from "../particleslight.json";
 import Particles from "react-particles";
+import { auth } from "../firebase"; // Adjust this path based on your project structure
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 function Navigation() {
   const [theme, setTheme] = useState("light");
@@ -27,6 +30,19 @@ function Navigation() {
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/"); // Redirect to login or any other page
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error("Logout error:", error);
+      });
+  };
 
   return (
     <div className="flex justify-between items-center p-4">
@@ -42,6 +58,30 @@ function Navigation() {
         >
           <FontAwesomeIcon icon={theme === "dark" ? faSun : faMoon} />
         </button>
+        <div className="relative">
+          <FontAwesomeIcon
+            icon={faUserCircle}
+            className="text-2xl cursor-pointer"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          />
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 py-2 w-48 bg-white dark:bg-gray-700 rounded-lg shadow-xl">
+              <a
+                href="#"
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+              >
+                <FontAwesomeIcon icon={faCog} className="pr-1" /> Settings
+              </a>
+              <a
+                href="#"
+                onClick={handleLogout}
+                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} className="pr-1" /> Logout
+              </a>
+            </div>
+          )}
+        </div>
       </div>
       <Particles options={particlesConfig} />
     </div>
