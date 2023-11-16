@@ -1,14 +1,13 @@
 import React, { useCallback } from "react";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
-import logo from "./logo.svg";
-import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import particlesOptions from "./particles.json";
 import Navigation from "./pages/Navigation";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-
+import "./App.css";
 
 function App() {
   const particlesInit = useCallback((main) => {
@@ -16,13 +15,17 @@ function App() {
   }, []);
 
   return (
-    <div className="App mx-8 flex flex-col justify-center theme-transition">
-      <Login />
-      <Particles options={particlesOptions} init={particlesInit} />
-
-      {/* <Navigation /> */}
-      {/* <Home /> */}
-    </div>
+    <Router>
+      <div className="App mx-8 flex flex-col justify-center theme-transition">
+        <Particles options={particlesOptions} init={particlesInit} />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/signup" element={<SignUp />} />
+          {/* Add more routes as needed */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -5,8 +5,14 @@ import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import Navigation from "./Navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, app } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const navigateToSignUp = () => {
+    navigate("/signup");
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -83,6 +89,7 @@ const Login = () => {
           {/* Register New User Button */}
           <button
             type="button"
+            onClick={navigateToSignUp}
             className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Register New User
