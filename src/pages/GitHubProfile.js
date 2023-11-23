@@ -64,15 +64,15 @@ const GitHubProfile = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <div className="max-w-4xl mx-auto bg-gray-300 dark:bg-[#111111] rounded-lg shadow-md overflow-hidden">
       {/* User Profile */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <div className="flex flex-col items-center p-4">
+        <div className="flex flex-col items-center p-4 dark:bg-gray">
           {/* <img
-            className="w-24 h-24 rounded-full border-4 border-blue-500"
-            src={profile.avatar_url}
-            alt={profile.name || profile.login}
-          /> */}
+        className="w-24 h-24 rounded-full border-4 border-blue-500"
+        src={profile.avatar_url}
+        alt={profile.name || profile.login}
+      /> */}
           <h1 className="mt-2 text-4xl font-semibold text-gray-900 dark:text-white">
             {profile.name || profile.login}
           </h1>
@@ -88,7 +88,7 @@ const GitHubProfile = () => {
           {repos.map((repo) => (
             <div
               key={repo.id}
-              className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
                 <div className="flex flex-col p-4">

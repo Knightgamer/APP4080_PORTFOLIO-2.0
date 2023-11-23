@@ -54,7 +54,8 @@ const ProfileCard = () => {
 
   return (
     <div className="col-span-12 lg:col-span-4 lg:h-screen lg:sticky top-44">
-      <div className="w-full mb-6 lg:mb-0 mx-auto relative bg-white text-center dark:bg-[#111111] px-6 rounded-[20px] mt-[180px] md:mt-[220px] lg:mt-0 ">
+      <div className="w-full mb-6 lg:mb-0 mx-auto relative bg-gray-300 dark:bg-[#111111] px-6 rounded-[20px] mt-[180px] md:mt-[220px] lg:mt-0">
+        {" "}
         <img
           alt="avatar"
           src={getAvatar()}
@@ -116,20 +117,21 @@ const ProfileCard = () => {
               <ContactItem
                 icon={faMapMarkerAlt}
                 title="GitHub Location"
-                content={user.location || "Not available"}
+                content={user.location || "Nairobi"}
               />
               {/* ... other GitHub data fields */}
             </>
           )}
         </div>
-        <a
+        {/* <a
           href="/path-to-your-cv.pdf" // Make sure this path points to your actual CV PDF
           download
           className="inline-flex items-center mx-auto bg-gradient-to-r from-red-500 to-pink-500 duration-200 transition ease-linear hover:bg-gradient-to-l to-pink-500 from-red-500 px-8 py-3 text-lg text-white rounded-[35px] mt-6 mb-6"
         >
           <FontAwesomeIcon icon={faDownload} className="mr-2" />
           Download CV
-        </a>
+        </a> */}
+        <br />
       </div>
     </div>
   );
