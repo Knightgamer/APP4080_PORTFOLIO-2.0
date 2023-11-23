@@ -6,7 +6,7 @@
   },
   "particles": {
     "number": {
-      "value": 100,
+      "value": 1000,
       "density": {
         "enable": false
       }
@@ -31,7 +31,7 @@
       "value": 0.5
     },
     "shape": {
-      "type": "circle"
+      "type": "polygon"
     }
   },
   "interactivity": {

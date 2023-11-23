@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLock, faUser, } from "@fortawesome/free-solid-svg-icons";
 import Navigation from "./Navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+  GithubAuthProvider,
+} from "firebase/auth";
 import { auth, app } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +23,34 @@ const Login = () => {
   };
   const navigateToForgotPassword = () => {
     navigate("/forgot-password");
+  };
+
+  const auth = getAuth();
+
+  const loginWithGitHub = () => {
+    const provider = new GithubAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+
+        // The signed-in user info.
+        const user = result.user;
+
+        // Navigate to the home page after successful login
+        navigate("/home"); // Make sure the path matches your route configuration
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GithubAuthProvider.credentialFromError(error);
+        // You may want to display the error message to the user
+      });
   };
 
   const getErrorMessage = (errorCode) => {
@@ -114,7 +147,10 @@ const Login = () => {
           </form>
 
           {/* Login with GitHub */}
-          <button className="w-full flex items-center justify-center bg-black text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors mb-4">
+          <button
+            className="w-full flex items-center justify-center bg-black text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors mb-4"
+            onClick={loginWithGitHub}
+          >
             <FontAwesomeIcon icon={faGithub} className="mr-2" />
             Login with GitHub
           </button>

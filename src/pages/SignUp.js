@@ -4,7 +4,12 @@ import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import Navigation from "./Navigation";
 
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+  GithubAuthProvider,
+} from "firebase/auth";
 import { auth, app } from "../firebase";
 
 const SignUp = () => {
@@ -23,6 +28,20 @@ const SignUp = () => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const SignUpWithGitHub = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
       });
   };
 
