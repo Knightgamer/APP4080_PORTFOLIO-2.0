@@ -108,7 +108,7 @@ const ProfileCard = () => {
               <ContactItem
                 icon={faUser}
                 title="GitHub Username"
-                content={user.userName}
+                content={user.name}
               />
               <ContactItem
                 icon={faEnvelope}
