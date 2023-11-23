@@ -65,16 +65,18 @@ const GitHubProfile = () => {
 
   return (
     <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      User Profile
-      <div className="flex flex-col items-center p-4">
-        <img
-          className="w-24 h-24 rounded-full border-4 border-blue-500"
-          src={profile.avatar_url}
-          alt={profile.name || profile.login}
-        />
-        <h1 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">
-          {profile.name || profile.login}
-        </h1>
+      {/* User Profile */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        <div className="flex flex-col items-center p-4">
+          {/* <img
+            className="w-24 h-24 rounded-full border-4 border-blue-500"
+            src={profile.avatar_url}
+            alt={profile.name || profile.login}
+          /> */}
+          <h1 className="mt-2 text-4xl font-semibold text-gray-900 dark:text-white">
+            {profile.name || profile.login}
+          </h1>
+        </div>
       </div>
 
       {/* Repositories */}
@@ -88,35 +90,37 @@ const GitHubProfile = () => {
               key={repo.id}
               className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-              <div className="flex flex-col">
-                <a
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline font-semibold"
-                >
-                  {repo.name}
-                </a>
-                <p className="text-sm text-gray-600">{repo.description}</p>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs font-medium text-gray-500">
-                    <FontAwesomeIcon icon={faStar} /> {repo.stargazers_count}
-                  </span>
-                  <span className="text-xs font-medium text-gray-500">
-                    <FontAwesomeIcon icon={faCodeBranch} /> {repo.forks_count}
-                  </span>
-                  {/* <span className="text-xs font-medium text-gray-500">
-                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                {repo.open_issues_count}
-              </span> */}
-                  <span className="text-xs font-medium text-gray-500">
-                    <FontAwesomeIcon icon={faEye} /> {repo.watchers_count}
-                  </span>
-                  <span className="text-xs font-medium text-gray-500">
-                    {repo.languages
-                      ? Object.keys(repo.languages).join(", ")
-                      : "No languages"}
-                  </span>
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div className="flex flex-col p-4">
+                  <a
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline font-semibold"
+                  >
+                    {repo.name}
+                  </a>
+                  <p className="text-sm text-gray-600">{repo.description}</p>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs font-medium text-gray-500">
+                      <FontAwesomeIcon icon={faStar} /> {repo.stargazers_count}
+                    </span>
+                    <span className="text-xs font-medium text-gray-500">
+                      <FontAwesomeIcon icon={faCodeBranch} /> {repo.forks_count}
+                    </span>
+                    {/* <span className="text-xs font-medium text-gray-500">
+                  <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                  {repo.open_issues_count}
+                </span> */}
+                    <span className="text-xs font-medium text-gray-500">
+                      <FontAwesomeIcon icon={faEye} /> {repo.watchers_count}
+                    </span>
+                    <span className="text-xs font-medium text-gray-500">
+                      {repo.languages
+                        ? Object.keys(repo.languages).join(", ")
+                        : "No languages"}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
