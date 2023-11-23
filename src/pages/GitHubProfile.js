@@ -80,11 +80,11 @@ const GitHubProfile = () => {
       </div>
 
       {/* Repositories */}
-      <div className="w-full max-w-3xl border-t border-gray-200 dark:border-gray-700">
+      <div className="border-t border-gray-200 dark:border-gray-700">
         <h2 className="text-lg font-semibold p-4 text-gray-900 dark:text-white">
           Repositories
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
           {repos.map((repo) => (
             <div
               key={repo.id}

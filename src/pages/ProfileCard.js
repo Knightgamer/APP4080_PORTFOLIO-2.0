@@ -46,6 +46,7 @@ const ProfileCard = () => {
   const getAvatar = () => {
     return (
       user?.photoURL ||
+      githubData?.avatar_url ||
       `https://ui-avatars.com/api/?name=${user?.email?.charAt(
         0
       )}&background=E93B81&color=fff`
@@ -107,7 +108,7 @@ const ProfileCard = () => {
               <ContactItem
                 icon={faUser}
                 title="GitHub Username"
-                content={user.username || "Not available"}
+                content={user.userName}
               />
               <ContactItem
                 icon={faEnvelope}
