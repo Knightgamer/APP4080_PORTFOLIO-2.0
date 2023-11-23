@@ -1,18 +1,18 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFacebookF,
-  faTwitter,
   faDribbble,
+  faFacebookF,
   faLinkedinIn,
+  faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import {
-  faMobileAlt,
-  faMapMarkerAlt,
-  faEnvelope,
   faBirthdayCake,
   faDownload,
+  faEnvelope,
+  faMapMarkerAlt,
+  faMobileAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 import downloadIcon from "../images/monalisa.jpg"; // Update with your actual path
 
 const ProfileCard = () => {

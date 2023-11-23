@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope, faLock, faUser, } from "@fortawesome/free-solid-svg-icons";
-import Navigation from "./Navigation";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  signInWithEmailAndPassword,
-  getAuth,
-  signInWithPopup,
   GithubAuthProvider,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
-import { auth, app } from "../firebase";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navigation from "./Navigation";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,7 +30,9 @@ const Login = () => {
     const provider = new GithubAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        console.log("GitHub login successful", result);
+
+        // This gives you a GitHub Access Token.
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
 
@@ -39,17 +40,17 @@ const Login = () => {
         const user = result.user;
 
         // Navigate to the home page after successful login
-        navigate("/home"); // Make sure the path matches your route configuration
+        navigate("/home");
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GithubAuthProvider.credentialFromError(error);
-        // You may want to display the error message to the user
+        if (error.code === "auth/account-exists-with-different-credential") {
+          // Here, you can inform the user that they have already signed up with a different method
+          setError(
+            "An account already exists with the same email address but different sign-in credentials. Please use another sign-in method."
+          );
+        } else {
+          console.error("GitHub login error", error);
+        }
       });
   };
 
