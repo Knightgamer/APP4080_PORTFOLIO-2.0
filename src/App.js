@@ -1,14 +1,13 @@
 import React, { useCallback } from "react";
 import Particles from "react-particles";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { loadFull } from "tsparticles";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import particlesOptions from "./particles.json";
-import Navigation from "./pages/Navigation";
+import "./App.css";
+import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import ForgotPassword from "./pages/ForgotPassword";
-import "./App.css";
+import particlesOptions from "./particles.json";
 
 function App() {
   const particlesInit = useCallback((main) => {
