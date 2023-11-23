@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMoon,
-  faSun,
-  faUserCircle,
-  faCog,
   faSignOutAlt,
+  faSun,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { signOut } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import Particles from "react-particles";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 import particlesConfigDark from "../particles.json";
 import particlesConfigLight from "../particleslight.json";
-import Particles from "react-particles";
-import { auth } from "../firebase"; // Adjust this path based on your project structure
-import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
 
 function Navigation() {
   const [theme, setTheme] = useState("light");
@@ -21,9 +19,6 @@ function Navigation() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [user, setUser] = useState(null); // State to store user information
 
-  const handleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
   useEffect(() => {
     document.documentElement.classList.remove("dark", "light");
     document.documentElement.classList.add(theme);
@@ -31,44 +26,44 @@ function Navigation() {
       theme === "dark" ? particlesConfigDark : particlesConfigLight
     );
   }, [theme]);
+
   useEffect(() => {
-    // Subscribe to auth state changes
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
     });
-
-    return () => unsubscribe(); // Unsubscribe on cleanup
+    return () => unsubscribe();
   }, []);
-  // Function to get the first initial
-  const getInitial = () => {
-    if (user) {
-      return user.displayName
-        ? user.displayName.charAt(0)
-        : user.email.charAt(0);
-    }
-    return ""; // Return empty string if no user
-  };
+
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
     signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/"); // Redirect to login or any other page
-      })
-      .catch((error) => {
-        // An error happened.
-        console.error("Logout error:", error);
-      });
+      .then(() => navigate("/"))
+      .catch((error) => console.error("Logout error:", error));
+  };
+
+  // Function to get either avatar URL or initials
+  const getAvatar = () => {
+    if (user) {
+      // Check if the user has a photo URL (e.g., logged in through GitHub)
+      if (user.photoURL) {
+        return user.photoURL;
+      }
+      // If no photo URL, generate initials
+      const initial = user.displayName
+        ? user.displayName.charAt(0)
+        : user.email.charAt(0);
+      return `https://ui-avatars.com/api/?name=${initial}&background=E93B81&color=fff`;
+    }
+    return ""; // Return empty string if no user
   };
 
   return (
     <div className="flex justify-between items-center p-4">
-      {/* <img src="/path-to-your-logo.png" alt="Logo" className="h-8" /> */}
-      {/* Replace with your logo path */}
       <p className="h-8 text-3xl text-gray-900 dark:text-gray-100">
         Knightgamer
       </p>
@@ -79,16 +74,15 @@ function Navigation() {
         >
           <FontAwesomeIcon icon={theme === "dark" ? faSun : faMoon} />
         </button>
-        <div classame="relative">
+        <div className="relative">
           <li className="list-none relative">
             <a
               href="#"
               className="flex items-center space-x-2 cursor-pointer"
-              onClick={handleDropdown}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              {/* User Avatar */}
               <img
-                src={`https://ui-avatars.com/api/?name=${user?.email}&background=E93B81&color=fff`}
+                src={getAvatar()}
                 className="w-8 h-8 rounded-full"
                 alt="User Avatar"
               />
@@ -97,7 +91,7 @@ function Navigation() {
               <div className="absolute right-0 mt-2 py-3 bg-white dark:bg-gray-900  rounded shadow-xl w-48">
                 <div className="flex flex-col items-center px-4 py-3">
                   <img
-                    src={`https://ui-avatars.com/api/?name=${user?.email}&background=E93B81&color=fff`}
+                    src={getAvatar()}
                     className="w-20 h-20 rounded-full"
                     alt="User Avatar"
                   />
@@ -136,6 +130,7 @@ function Navigation() {
           </li>
         </div>
       </div>
+
       <Particles options={particlesConfig} />
     </div>
   );

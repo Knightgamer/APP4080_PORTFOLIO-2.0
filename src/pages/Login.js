@@ -30,27 +30,16 @@ const Login = () => {
     const provider = new GithubAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log("GitHub login successful", result);
-
         // This gives you a GitHub Access Token.
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
 
-        // The signed-in user info.
-        const user = result.user;
-
-        // Navigate to the home page after successful login
-        navigate("/home");
+        // Pass the token to the GitHubProfile component
+        navigate("/home", { state: { accessToken: token } });
       })
+
       .catch((error) => {
-        if (error.code === "auth/account-exists-with-different-credential") {
-          // Here, you can inform the user that they have already signed up with a different method
-          setError(
-            "An account already exists with the same email address but different sign-in credentials. Please use another sign-in method."
-          );
-        } else {
-          console.error("GitHub login error", error);
-        }
+        console.error("GitHub login error", error);
       });
   };
 
