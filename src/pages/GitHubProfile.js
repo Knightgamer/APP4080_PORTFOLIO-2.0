@@ -8,6 +8,21 @@ const GitHubProfile = () => {
   const [repos, setRepos] = useState([]);
   const location = useLocation();
   const accessToken = location.state?.accessToken;
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     fetch("https://api.github.com/user", {
+  //       headers: {
+  //         Authorization: `token ${accessToken}`,
+  //       },
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log(data); // You can see all the available data in the console
+  //         // Process and use the data as needed
+  //       })
+  //       .catch((error) => console.error("Error fetching user details:", error));
+  //   }
+  // }, [accessToken]);
 
   useEffect(() => {
     if (!accessToken) {
