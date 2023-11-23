@@ -7,7 +7,6 @@ import {
 import {
   faDownload,
   faEnvelope,
-  faMapMarkerAlt,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,15 +14,13 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
 
 const ProfileCard = () => {
-  const [profile, setProfile] = useState(null);
-  const [user, setUser] = useState(null); // State to store user information
-  const [githubData, setGithubData] = useState(null); // State for GitHub data
+  const [user, setUser] = useState(null); // Firebase user
+  const [githubData, setGithubData] = useState(null); // GitHub user data
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        // Assuming the GitHub access token is stored in the user's profile
         fetchGitHubData(currentUser.accessToken);
       }
     });
@@ -33,19 +30,21 @@ const ProfileCard = () => {
   const fetchGitHubData = (accessToken) => {
     fetch("https://api.github.com/user", {
       headers: {
-        Authorization: `token ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
       .then((response) => response.json())
       .then((data) => {
         setGithubData(data);
       })
-      .catch((error) => console.error("Error fetching GitHub data:", error));
+      .catch((error) => {
+        console.error("Error fetching GitHub data:", error);
+      });
   };
-  // Function to get user avatar
+
   const getAvatar = () => {
     return (
-      user?.photoURL ||
+      githubData?.avatar_url ||
       `https://ui-avatars.com/api/?name=${user?.email?.charAt(
         0
       )}&background=E93B81&color=fff`
@@ -101,22 +100,17 @@ const ProfileCard = () => {
         </div>
         <div className="p-7 rounded-2xl mt-7 bg-[#F3F6F6] dark:bg-[#1D1D1D]">
           {/* Display GitHub Data */}
-          {user && (
+          {githubData && (
             <>
               <ContactItem
                 icon={faUser}
                 title="GitHub Username"
-                content={user.username || "Not available"}
+                content={githubData.login || user.displayName || "Username"}
               />
               <ContactItem
                 icon={faEnvelope}
                 title="GitHub Email"
                 content={user.email || "Not available"}
-              />
-              <ContactItem
-                icon={faMapMarkerAlt}
-                title="GitHub Location"
-                content={user.location || "Not available"}
               />
               {/* ... other GitHub data fields */}
             </>

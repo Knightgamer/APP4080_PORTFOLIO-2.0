@@ -65,7 +65,7 @@ const GitHubProfile = () => {
 
   return (
     <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      User Profile
+      {/* User Profile */}
       <div className="flex flex-col items-center p-4">
         <img
           className="w-24 h-24 rounded-full border-4 border-blue-500"
@@ -78,15 +78,15 @@ const GitHubProfile = () => {
       </div>
 
       {/* Repositories */}
-      <div className="w-full max-w-3xl border-t border-gray-200 dark:border-gray-700">
+      <div className="border-t border-gray-200 dark:border-gray-700">
         <h2 className="text-lg font-semibold p-4 text-gray-900 dark:text-white">
           Repositories
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
           {repos.map((repo) => (
             <div
               key={repo.id}
-              className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="bg-white dark:bg-gray-700 rounded-lg p-3 hover:shadow-lg transition-shadow duration-300"
             >
               <div className="flex flex-col">
                 <a
@@ -97,22 +97,18 @@ const GitHubProfile = () => {
                 >
                   {repo.name}
                 </a>
-                <p className="text-sm text-gray-600">{repo.description}</p>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs font-medium text-gray-500">
+                <p className="text-sm text-gray-600 mt-2">{repo.description}</p>
+                <div className="flex items-center justify-between mt-4 text-gray-500">
+                  <span className="text-xs font-medium">
                     <FontAwesomeIcon icon={faStar} /> {repo.stargazers_count}
                   </span>
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-medium">
                     <FontAwesomeIcon icon={faCodeBranch} /> {repo.forks_count}
                   </span>
-                  {/* <span className="text-xs font-medium text-gray-500">
-                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                {repo.open_issues_count}
-              </span> */}
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-medium">
                     <FontAwesomeIcon icon={faEye} /> {repo.watchers_count}
                   </span>
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-medium">
                     {repo.languages
                       ? Object.keys(repo.languages).join(", ")
                       : "No languages"}
