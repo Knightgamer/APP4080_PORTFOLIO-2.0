@@ -64,8 +64,8 @@ const GitHubProfile = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      {/* User Profile */}
+    <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+      User Profile
       <div className="flex flex-col items-center p-4">
         <img
           className="w-24 h-24 rounded-full border-4 border-blue-500"
@@ -78,13 +78,13 @@ const GitHubProfile = () => {
       </div>
 
       {/* Repositories */}
-      <div className="border-t border-gray-200 dark:border-gray-700">
+      <div className="w-full max-w-3xl border-t border-gray-200 dark:border-gray-700">
         <h2 className="text-lg font-semibold p-4 text-gray-900 dark:text-white">
           Repositories
         </h2>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {repos.map((repo) => (
-            <li
+            <div
               key={repo.id}
               className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
@@ -106,9 +106,9 @@ const GitHubProfile = () => {
                     <FontAwesomeIcon icon={faCodeBranch} /> {repo.forks_count}
                   </span>
                   {/* <span className="text-xs font-medium text-gray-500">
-                    <FontAwesomeIcon icon={faExclamationCircle} />{" "}
-                    {repo.open_issues_count}
-                  </span> */}
+                <FontAwesomeIcon icon={faExclamationCircle} />{" "}
+                {repo.open_issues_count}
+              </span> */}
                   <span className="text-xs font-medium text-gray-500">
                     <FontAwesomeIcon icon={faEye} /> {repo.watchers_count}
                   </span>
@@ -119,9 +119,9 @@ const GitHubProfile = () => {
                   </span>
                 </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
