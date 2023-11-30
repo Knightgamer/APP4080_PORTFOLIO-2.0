@@ -38,23 +38,42 @@ const GitHubProfile = () => {
       .then((data) => setProfile(data))
       .catch((error) => console.error("Error fetching GitHub profile:", error));
 
-    // Fetch repositories
     fetch("https://api.github.com/user/repos", {
       headers: { Authorization: `token ${accessToken}` },
     })
       .then((response) => response.json())
       .then(async (reposData) => {
-        // Fetch languages for each repository
-        const reposWithLanguages = await Promise.all(
+        const reposWithAdditionalData = await Promise.all(
           reposData.map(async (repo) => {
             const languagesResponse = await fetch(repo.languages_url, {
               headers: { Authorization: `token ${accessToken}` },
             });
             const languages = await languagesResponse.json();
-            return { ...repo, languages };
+
+            try {
+              const commitsResponse = await fetch(
+                repo.commits_url.replace("{/sha}", "?per_page=5"),
+                {
+                  headers: { Authorization: `token ${accessToken}` },
+                }
+              );
+              const commits = await commitsResponse.json();
+              return {
+                ...repo,
+                languages,
+                commits: Array.isArray(commits) ? commits : [],
+              };
+            } catch (error) {
+              console.error(
+                "Error fetching commits for repo:",
+                repo.name,
+                error
+              );
+              return { ...repo, languages, commits: [] };
+            }
           })
         );
-        setRepos(reposWithLanguages);
+        setRepos(reposWithAdditionalData);
       })
       .catch((error) => console.error("Error fetching repositories:", error));
   }, [accessToken]);
@@ -66,7 +85,7 @@ const GitHubProfile = () => {
   return (
     <div className="max-w-4xl mx-auto bg-gray-300 dark:bg-[#111111] rounded-lg shadow-lg overflow-hidden">
       {/* User Profile */}
-      <div className="flex flex-col items-center p-6 rounded-t-lg">
+      <div className="flex flex-col items-center p-6 rounded-t-lg bg-white dark:bg-[#111111]">
         <h1 className="mt-4 text-4xl font-semibold text-gray-900 dark:text-white">
           {profile.name || profile.login}
         </h1>
@@ -77,7 +96,7 @@ const GitHubProfile = () => {
         <h2 className="text-lg font-semibold p-4 text-gray-900 dark:text-white">
           Repositories
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-4">
           {repos.map((repo) => (
             <div
               key={repo.id}
@@ -88,7 +107,7 @@ const GitHubProfile = () => {
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className=" text-[#44566C] dark:text-[#A6A6A6] font-semibold text-lg "
+                  className="text-[#44566C] dark:text-[#A6A6A6] font-semibold text-lg "
                 >
                   {repo.name}
                 </a>
@@ -111,6 +130,27 @@ const GitHubProfile = () => {
                       : "No languages"}
                   </span>
                 </div>
+              </div>
+              {/* Recent Commits */}
+              <div className="mt-4">
+                <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Recent Commits:
+                </h3>
+                <ul className="list-disc pl-5 text-sm">
+                  {repo.commits &&
+                    repo.commits.slice(0, 5).map((commit, index) => (
+                      <li key={index} className="truncate">
+                        <a
+                          href={commit.html_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          {commit.commit.message}
+                        </a>
+                      </li>
+                    ))}
+                </ul>
               </div>
             </div>
           ))}
