@@ -85,10 +85,21 @@ const GitHubProfile = () => {
   return (
     <div className="max-w-4xl mx-auto bg-gray-300 dark:bg-[#111111] rounded-lg shadow-lg overflow-hidden">
       {/* User Profile */}
-      <div className="flex flex-col items-center p-6 rounded-t-lg bg-white dark:bg-[#111111]">
+      <div className="flex flex-col items-center p-6 rounded-t-lg">
+        <img
+          className="w-24 h-24 rounded-full border-4 border-blue-500"
+          src={profile.avatar_url}
+          alt={profile.name || profile.login}
+        />
         <h1 className="mt-4 text-4xl font-semibold text-gray-900 dark:text-white">
           {profile.name || profile.login}
         </h1>
+        {/* User Bio */}
+        {profile.bio && (
+          <p className="text-center text-sm text-gray-600 dark:text-white mt-2">
+            {profile.bio}
+          </p>
+        )}
       </div>
 
       {/* Repositories */}

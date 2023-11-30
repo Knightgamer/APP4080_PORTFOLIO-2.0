@@ -124,14 +124,6 @@ const ProfileCard = () => {
             </>
           )}
         </div>
-        {/* <a
-          href="/path-to-your-cv.pdf" // Make sure this path points to your actual CV PDF
-          download
-          className="inline-flex items-center mx-auto bg-gradient-to-r from-red-500 to-pink-500 duration-200 transition ease-linear hover:bg-gradient-to-l to-pink-500 from-red-500 px-8 py-3 text-lg text-white rounded-[35px] mt-6 mb-6"
-        >
-          <FontAwesomeIcon icon={faDownload} className="mr-2" />
-          Download CV
-        </a> */}
         <br />
       </div>
     </div>
