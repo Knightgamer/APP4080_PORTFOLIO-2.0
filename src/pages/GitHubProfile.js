@@ -26,6 +26,7 @@ const GitHubProfile = ({ githubUsername }) => {
 
     const fetchRepositories = async () => {
       try {
+        // Fetch repositories
         const reposResponse = await fetch(
           `https://api.github.com/users/${githubUsername}/repos`
         );
@@ -36,8 +37,14 @@ const GitHubProfile = ({ githubUsername }) => {
         }
         const reposData = await reposResponse.json();
 
-        const reposWithCommits = await Promise.all(
+        // Fetch additional data (languages and commits) for each repository
+        const reposWithAdditionalData = await Promise.all(
           reposData.map(async (repo) => {
+            // Fetch languages
+            const languagesResponse = await fetch(repo.languages_url);
+            const languages = await languagesResponse.json();
+
+            // Fetch commits
             try {
               const commitsResponse = await fetch(
                 repo.commits_url.replace("{/sha}", "?per_page=5")
@@ -48,20 +55,19 @@ const GitHubProfile = ({ githubUsername }) => {
                 );
               }
               const commitsData = await commitsResponse.json();
-
-              // Ensure commitsData is an array before returning
               return {
                 ...repo,
+                languages,
                 commits: Array.isArray(commitsData) ? commitsData : [],
               };
             } catch (error) {
               console.error(`Error fetching commits for ${repo.name}:`, error);
-              return { ...repo, commits: [] };
+              return { ...repo, languages, commits: [] };
             }
           })
         );
 
-        setRepos(reposWithCommits);
+        setRepos(reposWithAdditionalData);
       } catch (error) {
         console.error("Error fetching repositories:", error);
       }
