@@ -11,8 +11,10 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import { auth, app } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -32,16 +34,17 @@ const SignUp = () => {
   };
 
   const SignUpWithGitHub = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        // ...
+    const provider = new GithubAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+
+        // Navigate to home with the GitHub token
+        navigate("/home", { state: { accessToken: token } });
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
+        console.error("GitHub login error", error);
       });
   };
 
@@ -101,6 +104,7 @@ const SignUp = () => {
             {/* Login with GitHub */}
             <button
               type="button"
+              onClick={SignUpWithGitHub}
               className="w-full flex items-center justify-center bg-black text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors mb-4"
             >
               <FontAwesomeIcon icon={faGithub} className="mr-2" />
