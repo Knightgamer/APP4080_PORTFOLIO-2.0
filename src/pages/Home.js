@@ -9,7 +9,7 @@ const Home = () => {
         <Navigation />
       </div>
       <div className="grid grid-cols-12 md:gap-10 justify-between lg:mt-[220px]">
-        <div className="col-span-12 md:col-span-4">
+        <div className="col-span-12 md:col-span-4 h-screen">
           <ProfileCard />
         </div>
         <div className="col-span-12 md:col-span-8">
