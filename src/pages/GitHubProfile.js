@@ -12,17 +12,63 @@ const GitHubProfile = ({ githubUsername }) => {
       return;
     }
 
-    // Fetch GitHub profile
-    fetch(`https://api.github.com/users/${githubUsername}`)
-      .then((response) => response.json())
-      .then((data) => setProfile(data))
-      .catch((error) => console.error("Error fetching GitHub profile:", error));
+    const fetchGitHubProfile = async () => {
+      try {
+        const profileResponse = await fetch(
+          `https://api.github.com/users/${githubUsername}`
+        );
+        const profileData = await profileResponse.json();
+        setProfile(profileData);
+      } catch (error) {
+        console.error("Error fetching GitHub profile:", error);
+      }
+    };
 
-    // Fetch repositories
-    fetch(`https://api.github.com/users/${githubUsername}/repos`)
-      .then((response) => response.json())
-      .then((data) => setRepos(data))
-      .catch((error) => console.error("Error fetching repositories:", error));
+    const fetchRepositories = async () => {
+      try {
+        const reposResponse = await fetch(
+          `https://api.github.com/users/${githubUsername}/repos`
+        );
+        if (!reposResponse.ok) {
+          throw new Error(
+            `Error fetching repositories: ${reposResponse.statusText}`
+          );
+        }
+        const reposData = await reposResponse.json();
+
+        const reposWithCommits = await Promise.all(
+          reposData.map(async (repo) => {
+            try {
+              const commitsResponse = await fetch(
+                repo.commits_url.replace("{/sha}", "?per_page=5")
+              );
+              if (!commitsResponse.ok) {
+                throw new Error(
+                  `Error fetching commits: ${commitsResponse.statusText}`
+                );
+              }
+              const commitsData = await commitsResponse.json();
+
+              // Ensure commitsData is an array before returning
+              return {
+                ...repo,
+                commits: Array.isArray(commitsData) ? commitsData : [],
+              };
+            } catch (error) {
+              console.error(`Error fetching commits for ${repo.name}:`, error);
+              return { ...repo, commits: [] };
+            }
+          })
+        );
+
+        setRepos(reposWithCommits);
+      } catch (error) {
+        console.error("Error fetching repositories:", error);
+      }
+    };
+
+    fetchGitHubProfile();
+    fetchRepositories();
   }, [githubUsername]);
 
   if (!profile || !repos.length) {
