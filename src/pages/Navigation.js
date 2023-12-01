@@ -33,7 +33,7 @@ function Navigation() {
       {/* <img src="/path-to-your-logo.png" alt="Logo" className="h-8" /> */}
       {/* Replace with your logo path */}
       <p className="h-8 text-3xl text-gray-900 dark:text-gray-100">
-        Your Profile Viewer
+        CodeFusion Trio
       </p>
       <div className="flex items-center">
         <button
