@@ -32,11 +32,6 @@ const ProfileCard = ({ setGithubUsername }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-
-    // If the field being changed is the GitHub username, update it in the Home component
-    if (name === "githubUsername") {
-      setGithubUsername(value);
-    }
   };
 
   const fetchGitHubData = async (username) => {
@@ -45,9 +40,17 @@ const ProfileCard = ({ setGithubUsername }) => {
       if (response.ok) {
         const data = await response.json();
         setGithubData(data);
-        setGithubUsername(data.login); // Update the parent component's state
+        console.log("GitHub data:", data); // Log the fetched data
+        setGithubUsername(data.login);
+      } else if (response.status === 403) {
+        // Handle rate limit or access issue here
+        console.error("Access forbidden. You might have hit the rate limit.");
       } else {
-        console.error("GitHub data fetch error:", response.statusText);
+        console.error(
+          "GitHub data fetch error:",
+          response.status,
+          response.statusText
+        );
       }
     } catch (error) {
       console.error("Error fetching GitHub data:", error);
@@ -90,13 +93,17 @@ const ProfileCard = ({ setGithubUsername }) => {
         console.log("Profile updated!");
         setIsEditing(false);
         setGithubUsername(formData.githubUsername); // Update the githubUsername in the Home component
+
+        // Reload the page
+        window.location.reload();
       } catch (error) {
         console.error("Error updating profile:", error);
       }
     }
   };
-
+  // Inside the getAvatar function
   const getAvatar = () => {
+    const key = githubData ? githubData.id : ""; // Use a unique key from githubData if available
     return (
       githubData?.avatar_url ||
       `https://ui-avatars.com/api/?name=${formData.githubUsername}&background=E93B81&color=fff`
@@ -108,6 +115,7 @@ const ProfileCard = ({ setGithubUsername }) => {
       <div className="w-full mb-6 lg:mb-0 mx-auto relative bg-gray-300 dark:bg-[#111111] px-6 rounded-[20px] mt-[180px] md:mt-[220px] lg:mt-0">
         {" "}
         <img
+          key={githubData ? githubData.id : ""}
           alt="avatar"
           src={getAvatar()}
           className="w-[240px] absolute left-[50%] transform -translate-x-[50%] h-[240px] drop-shadow-xl mx-auto rounded-[20px] -mt-[140px]"
