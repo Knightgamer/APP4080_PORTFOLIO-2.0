@@ -14,9 +14,8 @@ import React, { useEffect, useState } from "react";
 import { app, auth } from "../firebase";
 
 const ProfileCard = () => {
-  const [profile, setProfile] = useState(null);
   const [user, setUser] = useState(null); // State to store user information
-  const [githubData, setGithubData] = useState(null); // State for GitHub data
+  const [githubData] = useState(null); // State for GitHub data
   const firestore = getFirestore(app);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -69,20 +68,8 @@ const ProfileCard = () => {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [firestore]);
 
-  const fetchGitHubData = (accessToken) => {
-    fetch("https://api.github.com/user", {
-      headers: {
-        Authorization: `token ${accessToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setGithubData(data);
-      })
-      .catch((error) => console.error("Error fetching GitHub data:", error));
-  };
   // Function to get user avatar
   const getAvatar = () => {
     return (

@@ -1,9 +1,4 @@
-import {
-  faMoon,
-  faSignOutAlt,
-  faSun,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faSignOutAlt, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
@@ -76,8 +71,8 @@ function Navigation() {
         </button>
         <div className="relative">
           <li className="list-none relative">
-            <a
-              href="#"
+            <button
+              type="button"
               className="flex items-center space-x-2 cursor-pointer"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
@@ -86,7 +81,7 @@ function Navigation() {
                 className="w-8 h-8 rounded-full"
                 alt="User Avatar"
               />
-            </a>
+            </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 py-3 bg-white dark:bg-gray-900  rounded shadow-xl w-48">
                 <div className="flex flex-col items-center px-4 py-3">
@@ -103,26 +98,14 @@ function Navigation() {
                 </div>
                 <ul className="list-none p-2">
                   <li className="py-2">
-                    <a
-                      href="#"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-                    >
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        className="mr-2 background-color=[#E93B81]"
-                      />
-                      Profile
-                    </a>
-                  </li>
-                  <li className="py-2">
-                    <a
-                      href="#"
+                    <button
+                      type="button"
                       onClick={handleLogout}
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                      className="flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
                     >
                       <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
                       Logout
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
