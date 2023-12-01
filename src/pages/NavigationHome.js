@@ -60,7 +60,7 @@ function Navigation() {
   return (
     <div className="flex justify-between items-center p-4">
       <p className="h-8 text-3xl text-gray-900 dark:text-gray-100">
-        Your Profile Viewer
+        CodeFusion Trio
       </p>
       <div className="flex items-center">
         <button
