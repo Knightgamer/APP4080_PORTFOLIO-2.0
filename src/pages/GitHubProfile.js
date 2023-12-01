@@ -1,68 +1,29 @@
 import { faCodeBranch, faEye, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
-const GitHubProfile = () => {
+const GitHubProfile = ({ githubUsername }) => {
   const [profile, setProfile] = useState(null);
   const [repos, setRepos] = useState([]);
-  const location = useLocation();
-  const accessToken = location.state?.accessToken;
-
 
   useEffect(() => {
-    if (!accessToken) {
-      console.error("No access token provided");
+    if (!githubUsername) {
+      console.log("No GitHub username provided");
       return;
     }
 
     // Fetch GitHub profile
-    fetch("https://api.github.com/user", {
-      headers: { Authorization: `token ${accessToken}` },
-    })
+    fetch(`https://api.github.com/users/${githubUsername}`)
       .then((response) => response.json())
       .then((data) => setProfile(data))
       .catch((error) => console.error("Error fetching GitHub profile:", error));
 
-    fetch("https://api.github.com/user/repos", {
-      headers: { Authorization: `token ${accessToken}` },
-    })
+    // Fetch repositories
+    fetch(`https://api.github.com/users/${githubUsername}/repos`)
       .then((response) => response.json())
-      .then(async (reposData) => {
-        const reposWithAdditionalData = await Promise.all(
-          reposData.map(async (repo) => {
-            const languagesResponse = await fetch(repo.languages_url, {
-              headers: { Authorization: `token ${accessToken}` },
-            });
-            const languages = await languagesResponse.json();
-
-            try {
-              const commitsResponse = await fetch(
-                repo.commits_url.replace("{/sha}", "?per_page=5"),
-                {
-                  headers: { Authorization: `token ${accessToken}` },
-                }
-              );
-              const commits = await commitsResponse.json();
-              return {
-                ...repo,
-                languages,
-                commits: Array.isArray(commits) ? commits : [],
-              };
-            } catch (error) {
-              console.error(
-                "Error fetching commits for repo:",
-                repo.name,
-                error
-              );
-              return { ...repo, languages, commits: [] };
-            }
-          })
-        );
-        setRepos(reposWithAdditionalData);
-      })
+      .then((data) => setRepos(data))
       .catch((error) => console.error("Error fetching repositories:", error));
-  }, [accessToken]);
+  }, [githubUsername]);
 
   if (!profile || !repos.length) {
     return <div>Loading...</div>;
