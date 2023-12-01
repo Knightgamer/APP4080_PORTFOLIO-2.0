@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GitHubProfile from "./GitHubProfile";
 import Navigation from "./NavigationHome";
 import ProfileCard from "./ProfileCard";
+import Footer from "./Footer";
 
 const Home = () => {
   const [githubUsername, setGithubUsername] = useState("");
@@ -16,6 +17,10 @@ const Home = () => {
         <div className="col-span-1 md:col-span-8">
           <GitHubProfile githubUsername={githubUsername} />
         </div>
+        <div>{""}</div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
