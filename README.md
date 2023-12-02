@@ -1,4 +1,3 @@
-```markdown
 # APP4080_PORTFOLIO-2.0
 
 This React application features Tailwind CSS, Firebase integration, GitHub OAuth2 authentication, and is deployed on Vercel.
