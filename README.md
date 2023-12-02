@@ -73,7 +73,7 @@ REACT_APP_GITHUB_TOKEN=your_github_token
 ## Authors
 [Shivam Patel](https://github.com/Knightgamer/) - 
 [Nayana Das](https://github.com/noyonaa/) - 
-[Arsen](https://github.com/arsenhh-byte) - 
+[Arsen](https://github.com/arsenhh-byte)
 
 ## Acknowledgements
 
