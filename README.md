@@ -1,6 +1,15 @@
-# APP4080_PORTFOLIO-2.0
+# Personal Portfolio Website Project 
 
-This React application features Tailwind CSS, Firebase integration, GitHub OAuth2 authentication, and is deployed on Vercel.
+This project aims to empower students and aspiring developers by offering a comprehensive platform to create and showcase their skills, projects, and accomplishments. The primary goal is to build a personal portfolio website using Git and GitHub, providing an opportunity not just to hone version control skills but also to establish a professional online presence.
+
+## Key Features:
+ - **User Authentication:** Seamlessly sign up, log in, and manage user profiles. Includes password recovery/reset functionalities.
+ - **Project Showcase:** Users can highlight their projects with details like project name, description, technologies used, and a link to the respective GitHub repository.Version 
+- **Control Integration:** Each project will have its dedicated GitHub repository, demonstrating Git functionalities such as branching, merging, and commit history.
+- **Portfolio Customization:** Users can personalize their portfolios with themes, color schemes, and sections for skills, education, work experience, and contact information.
+- **GitHub Activity Feed:** Showcase the user's GitHub activity (e.g., recent commits, pull requests) through integration with the GitHub API.
+- **Responsive Design:** Ensuring the website is responsive and aesthetically pleasing across various devices.Git Workflow: Encourage the use of feature branches and a pull request workflow for implementing new features into the portfolio.
+- **Continuous Deployment:** Implement continuous deployment using platforms like Netlify or GitHub Pages for instant reflection of any changes made to the live website.
 
 ## Getting Started
 
