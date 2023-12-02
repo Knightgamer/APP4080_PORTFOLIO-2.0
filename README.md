@@ -46,7 +46,7 @@ REACT_APP_GITHUB_TOKEN=your_github_token
 1. **Create a Firebase project** in your Firebase console.
 2. **Register your app** with Firebase.
 3. **Add Firebase SDK** to your project:
-   - Use the Firebase config details from the `.env` file.
+   - Use these deatils in your `.env` file for Firebase configurations.
 
 ### GitHub OAuth2 Setup
 
