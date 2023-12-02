@@ -83,4 +83,4 @@ REACT_APP_GITHUB_TOKEN=your_github_token
 - [Vercel](https://vercel.com/)
 ```
 
-Be sure to replace the placeholders in the `.env` file with your actual Firebase and GitHub token details. This updated README will guide users through the process of setting up the environment variables necessary for your project.
+Be sure to replace the placeholders in the `.env` file with your actual Firebase and GitHub token details.
